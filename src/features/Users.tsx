@@ -17,8 +17,6 @@ import { data as userData } from "./data";
 import { columns } from "./Column";
 import {
   ArrowDownAZ,
-  ArrowDownZA,
-  ArrowLeftRight,
   ArrowUpZA,
   Check,
   ChevronLeft,
@@ -28,8 +26,6 @@ import {
   ChevronsRight,
   Download,
   EllipsisVertical,
-  Eye,
-  EyeClosed,
   EyeClosedIcon,
   FilterIcon,
   PinIcon,
@@ -37,9 +33,7 @@ import {
   Search,
   SlidersHorizontal,
   Tally4,
-  ToggleLeft,
   X,
-  XCircle,
 } from "lucide-react";
 
 import {
