@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Column,
   ColumnFiltersState,
@@ -63,6 +62,7 @@ import { Checkbox } from "../components/ui/checkbox";
 import * as XLSX from "xlsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { useEffect, useState } from "react";
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -78,15 +78,15 @@ declare module "@tanstack/react-table" {
 }
 
 export default function Users() {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []
   );
-  const [globalFilter, setGlobalFilter] = React.useState("");
-  const [columnPinning, setColumnPinning] = React.useState<ColumnPinningState>(
+  const [globalFilter, setGlobalFilter] = useState("");
+  const [columnPinning, setColumnPinning] = useState<ColumnPinningState>(
     {}
   );
-  const [rowPinning, setRowPinning] = React.useState<RowPinningState>({});
-  const [columnVisibility, setColumnVisibility] = React.useState({});
+  const [rowPinning, setRowPinning] = useState<RowPinningState>({});
+  const [columnVisibility, setColumnVisibility] = useState({});
   const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     // Rank the item
     const itemRank = rankItem(row.getValue(columnId), value);
@@ -572,13 +572,13 @@ function DebouncedInput({
   onChange: (value: string | number) => void;
   debounce?: number;
 } & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">) {
-  const [value, setValue] = React.useState(initialValue);
+  const [value, setValue] = useState(initialValue);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = setTimeout(() => {
       onChange(value);
     }, debounce);
