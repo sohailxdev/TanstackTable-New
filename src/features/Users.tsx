@@ -63,6 +63,9 @@ import * as XLSX from "xlsx";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
+import { TbBaselineDensitySmall } from "react-icons/tb";
+import { MdDensityMedium } from "react-icons/md";
+import { MdDensitySmall } from "react-icons/md";
 
 declare module "@tanstack/react-table" {
   //allows us to define custom properties for our columns
@@ -78,15 +81,12 @@ declare module "@tanstack/react-table" {
 }
 
 export default function Users() {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    []
-  );
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [columnPinning, setColumnPinning] = useState<ColumnPinningState>(
-    {}
-  );
+  const [columnPinning, setColumnPinning] = useState<ColumnPinningState>({});
   const [rowPinning, setRowPinning] = useState<RowPinningState>({});
   const [columnVisibility, setColumnVisibility] = useState({});
+  const [padding, setPadding] = useState(0);
   const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     // Rank the item
     const itemRank = rankItem(row.getValue(columnId), value);
@@ -180,7 +180,24 @@ export default function Users() {
               />
             </div>
             <div>
-              <Tally4 />
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center text-xs"
+                onClick={() => {
+                  setPadding((prev) => (prev === 2 ? 0 : prev + 1));
+                  padding == 1 ? table.setPageSize(20) : table.setPageSize(10);
+                  console.log(padding);
+                }}
+              >
+                {padding === 0 ? (
+                  <MdDensitySmall className="w-2 h-2" />
+                ) : padding === 1 ? (
+                  <MdDensityMedium className="w-2 h-2" />
+                ) : (
+                  <TbBaselineDensitySmall className="w-2 h-2" />
+                )}
+              </Button>
             </div>
 
             <Button
@@ -322,6 +339,7 @@ export default function Users() {
                                         </PopoverTrigger>
                                         <PopoverContent className="p-1 w-[150px]">
                                           <div className="space-y-3">
+                                            <Filter column={header.column} />
                                             {/* Hide Option */}
                                             <div
                                               className="flex items-center gap-2 cursor-pointer hover:bg-blue-50 dark:hover:bg-gray-700 p-2 rounded-md transition-colors"
@@ -390,7 +408,9 @@ export default function Users() {
                       {row.getVisibleCells().map((cell) => {
                         return (
                           <td
-                            className={`py-2 px-2 border-b border-b-secondary ${
+                            className={`py-${
+                              padding == 0 ? 2 : padding == 1 ? 4 : 6
+                            } px-2 border-b border-b-secondary ${
                               cell.column.getIsPinned() === "left"
                                 ? "sticky left-0 z-10 bg-blue-100"
                                 : cell.column.getIsPinned() === "right"
