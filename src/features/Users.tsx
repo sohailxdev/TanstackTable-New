@@ -31,7 +31,6 @@ import {
   PinOff,
   Search,
   SlidersHorizontal,
-  Tally4,
   X,
 } from "lucide-react";
 
